@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>管理后台 · X Creator Vault</title>
+  <link rel="stylesheet" href="/style.css?v=2026.09.03.6">
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="/">X Creator Vault</a><nav><a href="/">返回前台</a></nav></header>
+  <main class="admin-main">
+    <section id="login-panel" class="admin-card narrow" hidden>
+      <p class="eyebrow">ADMIN CONSOLE</p><h1>管理后台</h1>
+      <form id="login-form"><label>管理密码<input id="password" type="password" required autocomplete="current-password"></label><button>登录</button></form>
+      <p id="login-error" class="error"></p>
+    </section>
+    <section id="dashboard" hidden>
+      <div class="section-head"><div><p class="eyebrow">LOCAL DATABASE</p><h1>创作者管理</h1></div><button id="logout" class="secondary">退出</button></div>
+      <section class="admin-card refresh-card">
+        <div class="section-head"><div><h2>刷新现有账号资料</h2><p class="muted">从 X 更新头像、Banner、简介、粉丝数和认证状态；不会改变分类、隐藏和账号状态。</p></div></div>
+        <div class="refresh-actions">
+          <select id="refresh-list"><option value="">选择分类</option></select>
+          <button id="refresh-by-list">刷新此分类</button>
+          <button id="refresh-all" class="secondary">刷新全部账号</button>
+        </div>
+        <p id="refresh-result" class="muted"></p>
+      </section>
+      <section class="admin-card sync-card">
+        <div class="section-head">
+          <div>
+            <h2>定时同步状态（每日 21:00 北京时间）</h2>
+            <p class="muted">仅同步重点关注账号的最新推文，带有随机延迟和限流保护。这里展示最后 5 次同步的执行状态与推文统计。</p>
+          </div>
+          <button id="trigger-sync-now" class="secondary">手动触发同步</button>
+        </div>
+        <div class="sync-status-display">
+          <span id="sync-last-time">最后同步：加载中…</span>
+          <span id="sync-last-status" class="sync-badge">状态</span>
+        </div>
+        <div class="sync-history-container">
+          <details>
+            <summary>查看最近 5 次同步历史记录</summary>
+            <div id="sync-history-list" class="sync-history-list">
+              <p class="muted">暂无同步历史</p>
+            </div>
+          </details>
+        </div>
+        <p id="sync-result" class="muted"></p>
+      </section>
+      <section class="admin-card proxy-card">
+        <h2>出站代理设置</h2>
+        <p class="muted">刷新 X 账号资料时通过代理访问外部接口，避免直接暴露服务器出口 IP。请使用稳定且合规的自有代理。</p>
+        <form id="proxy-form" class="form-grid">
+          <label class="wide">代理地址
+            <input id="proxy-url" type="text" placeholder="http://user:password@proxy-host:port" autocomplete="off">
+          </label>
+          <label><input id="proxy-enabled" type="checkbox"> 启用出站代理</label>
+          <div><button type="submit">保存代理设置</button></div>
+        </form>
+        <p id="proxy-result" class="muted"></p>
+      </section>
+      <section class="admin-card password-card">
+        <h2>修改管理密码</h2>
+        <p class="muted">修改成功后，所有已登录会话将退出，需要使用新密码重新登录。</p>
+        <form id="password-form" class="form-grid">
+          <label>当前密码<input id="current-password" type="password" required autocomplete="current-password"></label>
+          <label>新密码<input id="new-password" type="password" minlength="8" required autocomplete="new-password"></label>
+          <label>确认新密码<input id="confirm-password" type="password" minlength="8" required autocomplete="new-password"></label>
+          <div><button type="submit">保存新密码</button></div>
+        </form>
+        <p id="password-result" class="muted"></p>
+      </section>
+      <div class="admin-layout">
+        <section class="admin-card">
+          <h2>新增或编辑账号</h2>
+          <form id="creator-form">
+            <input id="creator-id" type="hidden">
+            <div class="form-grid">
+              <label>用户名<input id="username" required placeholder="username"><button id="fetch-profile" type="button" class="secondary">从 X 抓取资料</button></label>
+              <label>显示名称<input id="display-name" required></label>
+              <label>粉丝数<input id="followers" type="number" min="0" value="0"></label>
+              <label>状态<select id="status"><option value="active">正常</option><option value="unknown">待确认</option><option value="suspended">已封禁</option><option value="deleted">已注销</option></select></label>
+              <label class="wide">头像地址<input id="avatar-url" type="url"></label>
+              <label class="wide">Banner 地址<input id="banner-url" type="url"></label>
+              <label class="wide">简介<textarea id="bio" rows="3"></textarea></label>
+              <div class="wide category-editor">
+                <span class="field-label">所属分类</span>
+                <div id="creator-list-options" class="category-options"></div>
+                <div class="category-add-row">
+                  <input id="new-category" placeholder="输入新分类名称">
+                  <button id="add-category" type="button" class="secondary">添加分类</button>
+                </div>
+                <p class="muted">可直接勾选已有分类，也可新建分类。新分类会自动加入全局分类列表。</p>
+              </div>
+            </div>
+            <div class="checks"><label><input id="verified" type="checkbox"> 已认证</label><label><input id="hidden" type="checkbox"> 前台隐藏</label><label><input id="watch-enabled" type="checkbox"> 重点关注</label></div>
+            <button>保存账号</button><button id="reset-form" type="button" class="secondary">清空</button>
+          </form>
+        </section>
+        <section class="admin-card">
+          <h2>JSON 批量导入</h2>
+          <p class="muted">支持 creators 和 lists。重复用户名合并更新，新账号追加；分类只增不减，不会覆盖旧数据。</p>
+          <textarea id="import-json" rows="13" placeholder='{"creators":[{"username":"example","displayName":"Example","lists":["摄影"]}],"lists":[{"id":"photography","name":"摄影"}]}'></textarea>
+          <button id="import-button">导入数据</button>
+          <p id="import-result" class="muted"></p>
+        </section>
+      </div>
+      <section class="admin-card">
+        <div class="section-head"><div><h2>已收录账号</h2><p class="muted">勾选账号后可批量调整分类或重点关注状态。</p></div><strong id="admin-count">0</strong></div>
+        <div class="admin-search"><input id="admin-search" type="search" placeholder="搜索用户名、显示名称或分类…" autocomplete="off"><span id="admin-search-count" class="muted"></span></div>
+        <div class="bulk-toolbar">
+          <label class="bulk-select-all"><input id="select-all-creators" type="checkbox"> 全选</label>
+          <select id="bulk-category"><option value="">选择分类</option></select>
+          <button id="bulk-add-category" type="button" class="secondary">加入分类</button>
+          <button id="bulk-remove-category" type="button" class="secondary">移出分类</button>
+          <button id="bulk-watch-on" type="button" class="secondary">设为重点关注</button>
+          <button id="bulk-watch-off" type="button" class="secondary">取消重点关注</button>
+          <span id="bulk-result" class="muted"></span>
+        </div>
+        <div class="bulk-toolbar category-delete-toolbar">
+          <select id="delete-category"><option value="">选择要删除的分类</option></select>
+          <button id="delete-category-button" type="button" class="delete">删除分类</button>
+          <span class="muted">删除后会同时从所有创作者账号中移除该分类。</span>
+        </div>
+        <div id="admin-list" class="admin-list"></div>
+      </section>
+    </section>
+  </main>
+  <script src="/admin.js?v=2026.09.03.7"></script>
+</body>
+</html>

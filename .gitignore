@@ -1,0 +1,37 @@
+# .learnings is a hidden folder with self-improvement outputs and should be ignored.
+# .gitignore
+# Ignore local environment variables and server credentials
+.env
+.admin-password
+.admin-password-*
+
+# Ignore private SQLite/JSON database dynamic folders and history files
+data/*.json
+data/*.bak
+data/*.bak*
+data/*.tmp
+import/
+.tmp/
+
+# Keep config structure and examples in the repository, but ignore private properties
+!data/settings.json.example
+
+# Ignore dependency node modules
+node_modules/
+package-lock.json
+
+# Ignore local development helpers containing embedded X session cookies/tokens.
+# Remove the test-lookup.mjs file or move it to a private location before pushing.
+test-lookup.mjs
+*.cookies.txt
+
+# Ignore self-improvement agent outputs and stale runtime artifacts
+.learnings/
+
+# Ignore process runners, logs, and runtime targets
+*.log
+*.pid
+service.log
+server.pid
+nohup.out
+.DS_Store

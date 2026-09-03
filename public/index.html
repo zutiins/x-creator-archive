@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>X Creator Vault</title>
+  <link rel="stylesheet" href="/style.css?v=2026.09.03.6">
+</head>
+<body>
+  <div id="auth-bar" class="auth-bar"></div>
+  <main>
+    <section class="hero vault-hero">
+      <p class="eyebrow">CURATED CREATOR ARCHIVE</p>
+      <h1 id="site-name">X Creator Vault</h1>
+      <p id="site-description">公开创作者资料的本地备份与分类画廊</p>
+      <div class="stats">
+        <div><strong id="total-count">0</strong><span>收录账号</span></div>
+        <div><strong id="verified-count">0</strong><span>认证账号</span></div>
+        <div><strong id="list-count">0</strong><span>分类列表</span></div>
+        <div><strong id="archive-count">0</strong><span>归档账号</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head"><div><p class="eyebrow">SPOTLIGHT</p><h2>今日精选 <span class="title-muted">Spotlight</span></h2></div><button id="shuffle">换一批</button></div>
+      <div id="spotlight" class="grid spotlight"></div>
+    </section>
+
+    <section class="archive-section">
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="搜索名称、用户名或简介">
+        <select id="sort">
+          <option value="newest">最新收录</option>
+          <option value="followers">粉丝数量</option>
+          <option value="clicks">点击最多</option>
+          <option value="name">名称排序</option>
+        </select>
+      </div>
+      <div id="filters" class="filters"></div>
+      <div id="creators" class="grid"></div>
+      <p id="empty" class="empty" hidden>没有符合条件的账号</p>
+    </section>
+  </main>
+  <dialog id="detail"><button class="dialog-close" aria-label="关闭">×</button><div id="detail-content"></div></dialog>
+  <script src="/app.js?v=2026.09.03.6"></script>
+</body>
+</html>

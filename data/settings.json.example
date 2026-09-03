@@ -1,0 +1,7 @@
+{
+  "siteName": "X Creator Vault (Example)",
+  "siteDescription": "公开创作者资料的本地备份与分类画廊模板",
+  "spotlightCount": 3,
+  "proxyEnabled": false,
+  "proxyUrl": "socks5://127.0.0.1:1080"
+}
